@@ -1,10 +1,7 @@
 package com.crud.tasks.trello.client;
 
+import com.crud.tasks.domain.*;
 import com.crud.tasks.trello.config.TrelloConfig;
-import com.crud.tasks.domain.CreatedTrelloCard;
-import com.crud.tasks.domain.TrelloBadgesDto;
-import com.crud.tasks.domain.TrelloBoardDto;
-import com.crud.tasks.domain.TrelloCardDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -71,10 +68,14 @@ class TrelloClientTest {
         );
         URI uri = new URI("http://test.com/cards?key=test&token=test&name=Test%20task&desc=Test%20Description&pos=top&idList=test_id");
 
+        TrelloDto trelloDto = new TrelloDto(2, 4);
+        TrelloAttachmentsByType trelloAttachmentsByType = new TrelloAttachmentsByType(trelloDto);
+
         CreatedTrelloCard createdTrelloCard = new CreatedTrelloCard(
                 "1",
                 "test task",
-                "http://test.com"
+                "http://test.com",
+                new TrelloBadgesDto(4, trelloAttachmentsByType)
         );
         when(restTemplate.postForObject(uri, null, CreatedTrelloCard.class)).thenReturn(createdTrelloCard);
 
@@ -103,5 +104,6 @@ class TrelloClientTest {
 
         // Then
         assertEquals(0, trelloBoardDto.size());
+        assertTrue(trelloBoardDto.isEmpty());
     }
 }

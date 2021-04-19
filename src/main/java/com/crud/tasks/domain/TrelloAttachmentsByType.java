@@ -11,5 +11,5 @@ import lombok.Getter;
 public class TrelloAttachmentsByType {
 
     @JsonProperty("trello")
-    private Trello trello;
+    private TrelloDto trelloDto;
 }
