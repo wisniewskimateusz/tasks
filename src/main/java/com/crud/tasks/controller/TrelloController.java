@@ -17,29 +17,15 @@ import java.util.List;
 @CrossOrigin("*")
 public class TrelloController {
 
-    private final TrelloClient trelloClient;
     private final TrelloService trelloService;
 
     @GetMapping("getTrelloBoards")
     public List<TrelloBoardDto> getTrelloBoards() {
-        //trelloService.fetchTrelloBoards();
-        return trelloClient.getTrelloBoards();
-//        List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
-//        trelloBoards.forEach(trelloBoardDto -> {
-//            System.out.println(trelloBoardDto.getId() + " " + trelloBoardDto.getName());
-//
-//            System.out.println("This board contains lists: ");
-//
-//            trelloBoardDto.getLists().forEach(trelloList -> {
-//                System.out.println(
-//                        trelloList.getName() + " - " + trelloList.getId() + " - " + trelloList.isClosed()
-//                );
-//            });
-//        });
+        return trelloService.fetchTrelloBoards();
     }
 
     @PostMapping("createTrelloCard")
     public CreatedTrelloCard createTrelloCard(@RequestBody TrelloCardDto trelloCardDto) {
-        return trelloClient.createNewCard(trelloCardDto);
+        return trelloService.createTrelloCard(trelloCardDto);
     }
 }

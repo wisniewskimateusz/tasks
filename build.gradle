@@ -8,6 +8,17 @@ group = 'com.crud'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+bootJar {
+	enabled = false
+}
+
+jar {
+	enabled = true
+}
+
+apply plugin: 'application'
+mainClassName = 'com.crud.tasks.TasksApplication'
+
 repositories {
 	mavenCentral()
 }
