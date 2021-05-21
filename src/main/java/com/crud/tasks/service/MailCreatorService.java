@@ -53,10 +53,11 @@ public class MailCreatorService {
         List<String> tasksList = taskRepository.findAll().stream().map(Task::toString).collect(Collectors.toList());
 
         Context context = new Context();
-        context.setVariable("message",message);
+        context.setVariable("preview", "CRUD TASKS");
+        context.setVariable("message", message);
         context.setVariable("tasks_url", "http://localhost:8080/crud");
         context.setVariable("button", "Your Tasks");
-        context.setVariable("admin_config",adminConfig);
+        context.setVariable("admin_config", adminConfig);
         context.setVariable("show_button", true);
         context.setVariable("tasks_list", tasksList);
         return templateEngine.process("mail/daily-mail",context);
