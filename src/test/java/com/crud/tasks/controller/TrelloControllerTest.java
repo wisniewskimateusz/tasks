@@ -40,7 +40,7 @@ class TrelloControllerTest {
         //When & Then
         mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/v1/trello/boards")
+                        .get("/v1/trello/getTrelloBoards")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect((MockMvcResultMatchers.status()).is(200))
                 .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(0)));
@@ -59,25 +59,25 @@ class TrelloControllerTest {
                 .perform(MockMvcRequestBuilders
                         .get("/v1/trello/getTrelloBoards")
                         .contentType(MediaType.APPLICATION_JSON))
-                        // Trello board fields
-                        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)))
-                        .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.is("1")))
-                        .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", Matchers.is("Test Task")))
-                        // Trello list fields
-                        .andExpect(MockMvcResultMatchers.jsonPath("$[0].lists", Matchers.hasSize(1)))
-                        .andExpect(MockMvcResultMatchers.jsonPath("$[0].lists[0].id", Matchers.is("1")))
-                        .andExpect(MockMvcResultMatchers.jsonPath("$[0].lists[0].name", Matchers.is("Test list")))
-                        .andExpect(MockMvcResultMatchers.jsonPath("$[0].lists[0].closed", Matchers.is(false)));
+                // Trello board fields
+                .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.is("1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", Matchers.is("Test Task")))
+                // Trello list fields
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].lists", Matchers.hasSize(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].lists[0].id", Matchers.is("1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].lists[0].name", Matchers.is("Test list")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].lists[0].closed", Matchers.is(false)));
     }
 
     @Test
     void shouldCreateTrelloCard() throws Exception {
         // Given
         TrelloCardDto trelloCardDto =
-                new TrelloCardDto("test", "test description", "top", "1");
+                new TrelloCardDto("Test", "Test description", "top", "1");
 
         CreatedTrelloCardDto createdTrelloCardDto =
-                new CreatedTrelloCardDto("12", "test", "http://test.com");
+                new CreatedTrelloCardDto("232", "Test", "http://test.com");
 
         when(trelloFacade.createCard(any(TrelloCardDto.class))).thenReturn(createdTrelloCardDto);
         Gson gson = new Gson();
@@ -86,12 +86,12 @@ class TrelloControllerTest {
         //When & Then
         mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/v1/trello/createTrelloCard")
+                        .post("/v1/trello/createTrelloCard")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("UTF-8")
                         .content(jsonContent))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is("12")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is("test")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is("232")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is("Test")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.shortUrl", Matchers.is("http://test.com")));
     }
 }
