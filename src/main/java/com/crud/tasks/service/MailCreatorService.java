@@ -1,6 +1,8 @@
 package com.crud.tasks.service;
 
 import com.crud.tasks.config.AdminConfig;
+import com.crud.tasks.domain.Task;
+import com.crud.tasks.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,9 +12,13 @@ import org.thymeleaf.context.Context;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MailCreatorService {
+
+    @Autowired
+    TaskRepository taskRepository;
 
     @Autowired
     private AdminConfig adminConfig;
@@ -41,5 +47,18 @@ public class MailCreatorService {
         context.setVariable("admin_config", adminConfig);
         context.setVariable("application_functionality", functionality);
         return templateEngine.process("mail/created-trello-card-mail", context);
+    }
+
+    public String buildTasksDailyEmail(String message) {
+        List<String> tasksList = taskRepository.findAll().stream().map(Task::toString).collect(Collectors.toList());
+
+        Context context = new Context();
+        context.setVariable("message",message);
+        context.setVariable("tasks_url", "http://localhost:8080/crud");
+        context.setVariable("button", "Your Tasks");
+        context.setVariable("admin_config",adminConfig);
+        context.setVariable("show_button", true);
+        context.setVariable("tasks_list", tasksList);
+        return templateEngine.process("mail/daily-mail",context);
     }
 }
