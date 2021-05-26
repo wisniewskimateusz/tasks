@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/v1/trello")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class TrelloController {
 
-    @Autowired
+    //@Autowired
     private final TrelloFacade trelloFacade;
 
     @RequestMapping(method = RequestMethod.GET, value = "/boards")

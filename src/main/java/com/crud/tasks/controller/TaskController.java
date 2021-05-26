@@ -22,16 +22,13 @@ public class TaskController {
     private DbService service;
 
     @RequestMapping(method = RequestMethod.POST, value = "/tasks", consumes = APPLICATION_JSON_VALUE)
-    public TaskDto createTask(@RequestBody TaskDto taskDto) {
-        Task task = taskMapper.mapToTask(taskDto);
-        return taskMapper.mapToTaskDto(service.saveTask(task));
+    public void createTask(@RequestBody TaskDto taskDto) {
+        service.saveTask(taskMapper.mapToTask(taskDto));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/tasks")
     public List<TaskDto> getTasks() {
-        //return taskMapper.mapToTaskDtoList(service.getAllTasks());
-        List<Task> tasks = service.getAllTasks();
-        return taskMapper.mapToTaskDtoList(tasks);
+        return taskMapper.mapToTaskDtoList(service.getAllTasks());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/tasks/{taskId}")
@@ -46,9 +43,6 @@ public class TaskController {
 
     @RequestMapping(method = RequestMethod.PUT, value = "/tasks")
     public TaskDto updateTask(@RequestBody TaskDto taskDto) {
-        //return taskMapper.mapToTaskDto(service.saveTask(taskMapper.mapToTask(taskDto)));
-        Task task = taskMapper.mapToTask(taskDto);
-        Task savedTask = service.saveTask(task);
-        return taskMapper.mapToTaskDto(savedTask);
+        return taskMapper.mapToTaskDto(service.saveTask(taskMapper.mapToTask(taskDto)));
     }
 }
