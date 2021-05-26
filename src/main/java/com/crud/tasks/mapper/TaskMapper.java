@@ -2,18 +2,12 @@ package com.crud.tasks.mapper;
 
 import com.crud.tasks.domain.Task;
 import com.crud.tasks.domain.TaskDto;
-import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
-//@RestController
-//@RequestMapping("/v1/task")
-//@RequiredArgsConstructor
-@Service
+@Component
 public class TaskMapper {
 
     public Task mapToTask(final TaskDto taskDto) {
